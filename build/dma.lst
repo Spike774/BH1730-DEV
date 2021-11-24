@@ -1,0 +1,146 @@
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchqPHQc.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"dma.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MX_DMA_Init,"ax",%progbits
+  20              		.align	2
+  21              		.global	MX_DMA_Init
+  22              		.code	16
+  23              		.thumb_func
+  25              	MX_DMA_Init:
+  26              	.LFB40:
+  27              		.file 1 "Src/dma.c"
+   1:Src/dma.c     **** /**
+   2:Src/dma.c     ****   ******************************************************************************
+   3:Src/dma.c     ****   * File Name          : dma.c
+   4:Src/dma.c     ****   * Description        : This file provides code for the configuration
+   5:Src/dma.c     ****   *                      of all the requested memory to memory DMA transfers.
+   6:Src/dma.c     ****   ******************************************************************************
+   7:Src/dma.c     ****   * @attention
+   8:Src/dma.c     ****   *
+   9:Src/dma.c     ****   * <h2><center>&copy; Copyright (c) 2020 STMicroelectronics.
+  10:Src/dma.c     ****   * All rights reserved.</center></h2>
+  11:Src/dma.c     ****   *
+  12:Src/dma.c     ****   * This software component is licensed by ST under BSD 3-Clause license,
+  13:Src/dma.c     ****   * the "License"; You may not use this file except in compliance with the
+  14:Src/dma.c     ****   * License. You may obtain a copy of the License at:
+  15:Src/dma.c     ****   *                        opensource.org/licenses/BSD-3-Clause
+  16:Src/dma.c     ****   *
+  17:Src/dma.c     ****   ******************************************************************************
+  18:Src/dma.c     ****   */
+  19:Src/dma.c     **** 
+  20:Src/dma.c     **** /* Includes ------------------------------------------------------------------*/
+  21:Src/dma.c     **** #include "dma.h"
+  22:Src/dma.c     **** 
+  23:Src/dma.c     **** /* USER CODE BEGIN 0 */
+  24:Src/dma.c     **** 
+  25:Src/dma.c     **** /* USER CODE END 0 */
+  26:Src/dma.c     **** 
+  27:Src/dma.c     **** /*----------------------------------------------------------------------------*/
+  28:Src/dma.c     **** /* Configure DMA                                                              */
+  29:Src/dma.c     **** /*----------------------------------------------------------------------------*/
+  30:Src/dma.c     **** 
+  31:Src/dma.c     **** /* USER CODE BEGIN 1 */
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchqPHQc.s 			page 2
+
+
+  32:Src/dma.c     **** 
+  33:Src/dma.c     **** /* USER CODE END 1 */
+  34:Src/dma.c     **** 
+  35:Src/dma.c     **** /** 
+  36:Src/dma.c     ****   * Enable DMA controller clock
+  37:Src/dma.c     ****   */
+  38:Src/dma.c     **** void MX_DMA_Init(void) 
+  39:Src/dma.c     **** {
+  28              		.loc 1 39 0
+  29              		.cfi_startproc
+  30              		@ args = 0, pretend = 0, frame = 8
+  31              		@ frame_needed = 0, uses_anonymous_args = 0
+  32 0000 00B5     		push	{lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 83B0     		sub	sp, sp, #12
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 16
+  39              	.LBB2:
+  40:Src/dma.c     **** 
+  41:Src/dma.c     ****   /* DMA controller clock enable */
+  42:Src/dma.c     ****   __HAL_RCC_DMA1_CLK_ENABLE();
+  40              		.loc 1 42 0
+  41 0004 094A     		ldr	r2, .L2
+  42 0006 5169     		ldr	r1, [r2, #20]
+  43 0008 0120     		movs	r0, #1
+  44 000a 0143     		orrs	r1, r0
+  45 000c 5161     		str	r1, [r2, #20]
+  46 000e 5369     		ldr	r3, [r2, #20]
+  47 0010 0340     		ands	r3, r0
+  48 0012 0193     		str	r3, [sp, #4]
+  49 0014 019B     		ldr	r3, [sp, #4]
+  50              	.LBE2:
+  43:Src/dma.c     **** 
+  44:Src/dma.c     ****   /* DMA interrupt init */
+  45:Src/dma.c     ****   /* DMA1_Channel1_IRQn interrupt configuration */
+  46:Src/dma.c     ****   HAL_NVIC_SetPriority(DMA1_Channel1_IRQn, 0, 0);
+  51              		.loc 1 46 0
+  52 0016 0022     		movs	r2, #0
+  53 0018 0021     		movs	r1, #0
+  54 001a 0830     		adds	r0, r0, #8
+  55 001c FFF7FEFF 		bl	HAL_NVIC_SetPriority
+  56              	.LVL0:
+  47:Src/dma.c     ****   HAL_NVIC_EnableIRQ(DMA1_Channel1_IRQn);
+  57              		.loc 1 47 0
+  58 0020 0920     		movs	r0, #9
+  59 0022 FFF7FEFF 		bl	HAL_NVIC_EnableIRQ
+  60              	.LVL1:
+  48:Src/dma.c     **** 
+  49:Src/dma.c     **** }
+  61              		.loc 1 49 0
+  62 0026 03B0     		add	sp, sp, #12
+  63              		@ sp needed
+  64 0028 00BD     		pop	{pc}
+  65              	.L3:
+  66 002a C046     		.align	2
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchqPHQc.s 			page 3
+
+
+  67              	.L2:
+  68 002c 00100240 		.word	1073876992
+  69              		.cfi_endproc
+  70              	.LFE40:
+  72              		.text
+  73              	.Letext0:
+  74              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\mach
+  75              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\sys\
+  76              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x8.h"
+  77              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_cortex.h"
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchqPHQc.s 			page 4
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 dma.c
+C:\Users\bnusw\AppData\Local\Temp\cchqPHQc.s:20     .text.MX_DMA_Init:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\cchqPHQc.s:25     .text.MX_DMA_Init:00000000 MX_DMA_Init
+C:\Users\bnusw\AppData\Local\Temp\cchqPHQc.s:68     .text.MX_DMA_Init:0000002c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_NVIC_SetPriority
+HAL_NVIC_EnableIRQ

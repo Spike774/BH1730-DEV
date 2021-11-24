@@ -1,0 +1,668 @@
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"bh1730.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.BH1730_WriteReg,"ax",%progbits
+  20              		.align	2
+  21              		.code	16
+  22              		.thumb_func
+  24              	BH1730_WriteReg:
+  25              	.LFB40:
+  26              		.file 1 "Src/bh1730.c"
+   1:Src/bh1730.c  **** #include "bh1730.h"
+   2:Src/bh1730.c  **** 
+   3:Src/bh1730.c  **** 
+   4:Src/bh1730.c  **** 
+   5:Src/bh1730.c  **** static void BH1730_WriteReg(uint8_t addr, uint8_t value) {
+  27              		.loc 1 5 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 00B5     		push	{lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 85B0     		sub	sp, sp, #20
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 24
+   6:Src/bh1730.c  ****     // uint8_t ret;
+   7:Src/bh1730.c  ****     uint8_t buf[2];
+   8:Src/bh1730.c  ****     // buf[0] = addr;
+   9:Src/bh1730.c  ****     buf[0] = addr | BH1730_CMD;
+  39              		.loc 1 9 0
+  40 0004 03AA     		add	r2, sp, #12
+  41 0006 8023     		movs	r3, #128
+  42 0008 5B42     		rsbs	r3, r3, #0
+  43 000a 1843     		orrs	r0, r3
+  44              	.LVL1:
+  45 000c 1070     		strb	r0, [r2]
+  10:Src/bh1730.c  ****     buf[1] = value;
+  46              		.loc 1 10 0
+  47 000e 5170     		strb	r1, [r2, #1]
+  11:Src/bh1730.c  ****     HAL_I2C_Master_Transmit(&hi2c2, BH1730_ADDR , buf, 2, HAL_I2C_STATE_TIMEOUT);
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 2
+
+
+  48              		.loc 1 11 0
+  49 0010 2133     		adds	r3, r3, #33
+  50 0012 FF33     		adds	r3, r3, #255
+  51 0014 0093     		str	r3, [sp]
+  52 0016 9E3B     		subs	r3, r3, #158
+  53 0018 5221     		movs	r1, #82
+  54              	.LVL2:
+  55 001a 0248     		ldr	r0, .L2
+  56 001c FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+  57              	.LVL3:
+  12:Src/bh1730.c  ****     // ret = HAL_I2C_Master_Transmit(&hi2c2, BH1730_ADDR , buf, 2, HAL_I2C_STATE_TIMEOUT);
+  13:Src/bh1730.c  ****     // OLED_ShowNum(0, 0, ret, 8, 12, 1);
+  14:Src/bh1730.c  ****     // OLED_ShowNum(0, 32, 101, 3, 12, 1);
+  15:Src/bh1730.c  ****     // OLED_Refresh();
+  16:Src/bh1730.c  ****     // HAL_Delay(1000);
+  17:Src/bh1730.c  ****     // OLED_Clear();
+  18:Src/bh1730.c  **** }
+  58              		.loc 1 18 0
+  59 0020 05B0     		add	sp, sp, #20
+  60              		@ sp needed
+  61 0022 00BD     		pop	{pc}
+  62              	.L3:
+  63              		.align	2
+  64              	.L2:
+  65 0024 00000000 		.word	hi2c2
+  66              		.cfi_endproc
+  67              	.LFE40:
+  69              		.section	.text.BH1730_ReadReg,"ax",%progbits
+  70              		.align	2
+  71              		.code	16
+  72              		.thumb_func
+  74              	BH1730_ReadReg:
+  75              	.LFB41:
+  19:Src/bh1730.c  **** 
+  20:Src/bh1730.c  **** 
+  21:Src/bh1730.c  **** static uint8_t BH1730_ReadReg(uint8_t addr) {
+  76              		.loc 1 21 0
+  77              		.cfi_startproc
+  78              		@ args = 0, pretend = 0, frame = 16
+  79              		@ frame_needed = 0, uses_anonymous_args = 0
+  80              	.LVL4:
+  81 0000 70B5     		push	{r4, r5, r6, lr}
+  82              	.LCFI2:
+  83              		.cfi_def_cfa_offset 16
+  84              		.cfi_offset 4, -16
+  85              		.cfi_offset 5, -12
+  86              		.cfi_offset 6, -8
+  87              		.cfi_offset 14, -4
+  88 0002 86B0     		sub	sp, sp, #24
+  89              	.LCFI3:
+  90              		.cfi_def_cfa_offset 40
+  91 0004 0F22     		movs	r2, #15
+  92 0006 6A44     		add	r2, r2, sp
+  22:Src/bh1730.c  ****     // uint8_t ret;
+  23:Src/bh1730.c  ****     uint8_t value = 0;    
+  93              		.loc 1 23 0
+  94 0008 1724     		movs	r4, #23
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 3
+
+
+  95 000a 6C44     		add	r4, r4, sp
+  96 000c 0023     		movs	r3, #0
+  97 000e 2370     		strb	r3, [r4]
+  24:Src/bh1730.c  ****     addr = addr | BH1730_CMD;
+  98              		.loc 1 24 0
+  99 0010 803B     		subs	r3, r3, #128
+ 100 0012 1843     		orrs	r0, r3
+ 101              	.LVL5:
+ 102 0014 1070     		strb	r0, [r2]
+  25:Src/bh1730.c  ****     HAL_I2C_Master_Transmit(&hi2c2, BH1730_ADDR, &addr, 1, HAL_I2C_STATE_TIMEOUT);     
+ 103              		.loc 1 25 0
+ 104 0016 094D     		ldr	r5, .L5
+ 105 0018 A026     		movs	r6, #160
+ 106 001a 0096     		str	r6, [sp]
+ 107 001c 8133     		adds	r3, r3, #129
+ 108 001e 5221     		movs	r1, #82
+ 109 0020 2800     		movs	r0, r5
+ 110 0022 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+ 111              	.LVL6:
+  26:Src/bh1730.c  ****     // ret = HAL_I2C_Master_Transmit(&hi2c2, BH1730_ADDR, &addr, 1, HAL_I2C_STATE_TIMEOUT);     
+  27:Src/bh1730.c  ****     // HAL_I2C_Master_Transmit(&hi2c2, BH1730_ADDR, addr, 1, HAL_I2C_STATE_TIMEOUT);    
+  28:Src/bh1730.c  ****     // OLED_ShowNum(0, 16, ret, 8, 12, 1);
+  29:Src/bh1730.c  ****     // OLED_ShowNum(0, 32, 102, 3, 12, 1);
+  30:Src/bh1730.c  ****     // OLED_Refresh();
+  31:Src/bh1730.c  ****     // HAL_Delay(1000);
+  32:Src/bh1730.c  ****     // OLED_Clear(); 
+  33:Src/bh1730.c  ****     HAL_I2C_Master_Receive(&hi2c2, BH1730_ADDR, &value, 1, HAL_I2C_STATE_TIMEOUT);
+ 112              		.loc 1 33 0
+ 113 0026 0096     		str	r6, [sp]
+ 114 0028 0123     		movs	r3, #1
+ 115 002a 2200     		movs	r2, r4
+ 116 002c 5221     		movs	r1, #82
+ 117 002e 2800     		movs	r0, r5
+ 118 0030 FFF7FEFF 		bl	HAL_I2C_Master_Receive
+ 119              	.LVL7:
+  34:Src/bh1730.c  ****     // ret = HAL_I2C_Master_Receive(&hi2c2, BH1730_ADDR, &value, 1, HAL_I2C_STATE_TIMEOUT);
+  35:Src/bh1730.c  ****     // OLED_ShowNum(0, 16, ret, 8, 12, 1);
+  36:Src/bh1730.c  ****     // OLED_ShowNum(0, 32, 103, 3, 12, 1);
+  37:Src/bh1730.c  ****     // OLED_Refresh();
+  38:Src/bh1730.c  ****     // HAL_Delay(1000);
+  39:Src/bh1730.c  ****     // OLED_Clear();    
+  40:Src/bh1730.c  ****     // OLED_ShowNum(0, 16, value, 8, 12, 1);
+  41:Src/bh1730.c  ****     // OLED_ShowNum(0, 32, 104, 3, 12, 1);
+  42:Src/bh1730.c  ****     // OLED_Refresh();
+  43:Src/bh1730.c  ****     // HAL_Delay(1000);
+  44:Src/bh1730.c  ****     // OLED_Clear();
+  45:Src/bh1730.c  ****     return value;
+ 120              		.loc 1 45 0
+ 121 0034 2078     		ldrb	r0, [r4]
+  46:Src/bh1730.c  **** }
+ 122              		.loc 1 46 0
+ 123 0036 06B0     		add	sp, sp, #24
+ 124              		@ sp needed
+ 125 0038 70BD     		pop	{r4, r5, r6, pc}
+ 126              	.L6:
+ 127 003a C046     		.align	2
+ 128              	.L5:
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 4
+
+
+ 129 003c 00000000 		.word	hi2c2
+ 130              		.cfi_endproc
+ 131              	.LFE41:
+ 133              		.global	__aeabi_uidiv
+ 134              		.global	__aeabi_ui2d
+ 135              		.global	__aeabi_dcmplt
+ 136              		.global	__aeabi_i2d
+ 137              		.global	__aeabi_dmul
+ 138              		.global	__aeabi_dsub
+ 139              		.global	__aeabi_ddiv
+ 140              		.global	__aeabi_d2uiz
+ 141              		.section	.text.BH1730_GetLux,"ax",%progbits
+ 142              		.align	2
+ 143              		.global	BH1730_GetLux
+ 144              		.code	16
+ 145              		.thumb_func
+ 147              	BH1730_GetLux:
+ 148              	.LFB42:
+  47:Src/bh1730.c  **** 
+  48:Src/bh1730.c  **** 
+  49:Src/bh1730.c  **** /**
+  50:Src/bh1730.c  ****  *  Set gain of the internal ADC
+  51:Src/bh1730.c  ****  * 
+  52:Src/bh1730.c  ****  */
+  53:Src/bh1730.c  **** // void setGain(BH1730_GAIN gain){
+  54:Src/bh1730.c  **** //   if(gain == GAIN_X1){
+  55:Src/bh1730.c  **** //     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X1_MODE); 
+  56:Src/bh1730.c  **** //   }else if(gain == GAIN_X2){
+  57:Src/bh1730.c  **** //     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X2_MODE); 
+  58:Src/bh1730.c  **** //   }else if(gain == GAIN_X64){
+  59:Src/bh1730.c  **** //     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X64_MODE); 
+  60:Src/bh1730.c  **** //   }
+  61:Src/bh1730.c  **** //   else{
+  62:Src/bh1730.c  **** //     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X128_MODE); 
+  63:Src/bh1730.c  **** //   }
+  64:Src/bh1730.c  **** //   // else if(gain == GAIN_X128){
+  65:Src/bh1730.c  **** //   //   BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X128_MODE); 
+  66:Src/bh1730.c  **** //   // }
+  67:Src/bh1730.c  **** //   // else {
+  68:Src/bh1730.c  **** //   // #if BH1730_DEBUG == 1
+  69:Src/bh1730.c  **** //   //   Serial.println("Gain invalid");
+  70:Src/bh1730.c  **** //   // #endif
+  71:Src/bh1730.c  **** //   //   return;
+  72:Src/bh1730.c  **** //   // }
+  73:Src/bh1730.c  **** //   // BH1730_GAIN gain = gain;
+  74:Src/bh1730.c  **** // }
+  75:Src/bh1730.c  **** 
+  76:Src/bh1730.c  **** /**
+  77:Src/bh1730.c  ****  * Read lux level from sensor.
+  78:Src/bh1730.c  ****  * Returns -1 if read is timed out
+  79:Src/bh1730.c  ****  * 
+  80:Src/bh1730.c  ****  */
+  81:Src/bh1730.c  **** uint32_t BH1730_GetLux() {
+ 149              		.loc 1 81 0
+ 150              		.cfi_startproc
+ 151              		@ args = 0, pretend = 0, frame = 0
+ 152              		@ frame_needed = 0, uses_anonymous_args = 0
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 5
+
+
+ 153 0000 F8B5     		push	{r3, r4, r5, r6, r7, lr}
+ 154              	.LCFI4:
+ 155              		.cfi_def_cfa_offset 24
+ 156              		.cfi_offset 3, -24
+ 157              		.cfi_offset 4, -20
+ 158              		.cfi_offset 5, -16
+ 159              		.cfi_offset 6, -12
+ 160              		.cfi_offset 7, -8
+ 161              		.cfi_offset 14, -4
+  82:Src/bh1730.c  ****   // set Gain
+  83:Src/bh1730.c  ****   // setGain(GAIN_X1);
+  84:Src/bh1730.c  **** 
+  85:Src/bh1730.c  ****   // Start one time measurement
+  86:Src/bh1730.c  ****   BH1730_WriteReg(BH1730_REG_CONTROL, BH1730_REG_CONTROL_POWER | BH1730_REG_CONTROL_ADC_EN | BH1730
+ 162              		.loc 1 86 0
+ 163 0002 0B21     		movs	r1, #11
+ 164 0004 0020     		movs	r0, #0
+ 165 0006 FFF7FEFF 		bl	BH1730_WriteReg
+ 166              	.LVL8:
+  87:Src/bh1730.c  ****   // uint8_t buf[2];
+  88:Src/bh1730.c  ****   // buf[0] = (uint8_t) 0x80;
+  89:Src/bh1730.c  ****   // buf[1] = (uint8_t) 0x0C;
+  90:Src/bh1730.c  ****   // HAL_I2C_Master_Transmit(&hi2c2, 0x52, buf, 2, HAL_I2C_STATE_TIMEOUT);  
+  91:Src/bh1730.c  ****   // HAL_Delay(10);
+  92:Src/bh1730.c  **** 
+  93:Src/bh1730.c  ****   // uint8_t value = 0; 
+  94:Src/bh1730.c  ****   // HAL_I2C_Master_Transmit(&hi2c2, 0x52, ((uint8_t)0x14), 1, HAL_I2C_STATE_TIMEOUT);  
+  95:Src/bh1730.c  ****   // HAL_I2C_Master_Transmit(&hi2c2, 0x52, 0x14, 1, HAL_I2C_STATE_TIMEOUT);  
+  96:Src/bh1730.c  ****   // HAL_I2C_Master_Receive(&hi2c2, 0x52, &value, 1, HAL_I2C_STATE_TIMEOUT);
+  97:Src/bh1730.c  ****   // BH1730_ReadReg(BH1730_REG_DATA0_LOW);
+  98:Src/bh1730.c  ****   // OLED_ShowNum(0, 16, value, 8, 12, 1);
+  99:Src/bh1730.c  ****   // OLED_ShowNum(0, 32, 105, 3, 12, 1);
+ 100:Src/bh1730.c  ****   // OLED_Refresh();
+ 101:Src/bh1730.c  ****   // HAL_Delay(1000);
+ 102:Src/bh1730.c  ****   // OLED_Clear(); 
+ 103:Src/bh1730.c  **** 
+ 104:Src/bh1730.c  ****   // Wait for ADC data is valid
+ 105:Src/bh1730.c  **** 
+ 106:Src/bh1730.c  ****   // while(((read8(BH1730_REG_CONTROL) & BH1730_REG_CONTROL_ADC_VALID) == 0) && ++ret < BH1730_RET_
+ 107:Src/bh1730.c  ****   // HAL_Delay(10);
+ 108:Src/bh1730.c  ****   //   // delay(10);
+ 109:Src/bh1730.c  ****   // }
+ 110:Src/bh1730.c  **** 
+ 111:Src/bh1730.c  ****   // if(ret == BH1730_RET_TIMEOUT){
+ 112:Src/bh1730.c  ****   // #if BH1730_DEBUG == 1
+ 113:Src/bh1730.c  ****   //   Serial.println("Read timed out");
+ 114:Src/bh1730.c  ****   // #endif
+ 115:Src/bh1730.c  ****   //   return -1;
+ 116:Src/bh1730.c  ****   // }
+ 117:Src/bh1730.c  **** 
+ 118:Src/bh1730.c  ****   // Read real light and IR light from registers  
+ 119:Src/bh1730.c  ****   // uint32_t result;
+ 120:Src/bh1730.c  ****   uint8_t data0_lb, data0_mb, data1_lb, data1_mb;
+ 121:Src/bh1730.c  ****   data0_lb = BH1730_ReadReg(BH1730_REG_DATA0_LOW);
+ 167              		.loc 1 121 0
+ 168 000a 1420     		movs	r0, #20
+ 169 000c FFF7FEFF 		bl	BH1730_ReadReg
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 6
+
+
+ 170              	.LVL9:
+ 171 0010 0500     		movs	r5, r0
+ 172              	.LVL10:
+ 122:Src/bh1730.c  ****   data0_mb = BH1730_ReadReg(BH1730_REG_DATA0_HIGH);
+ 173              		.loc 1 122 0
+ 174 0012 1520     		movs	r0, #21
+ 175 0014 FFF7FEFF 		bl	BH1730_ReadReg
+ 176              	.LVL11:
+ 177 0018 0400     		movs	r4, r0
+ 178              	.LVL12:
+ 123:Src/bh1730.c  ****   data1_lb = BH1730_ReadReg(BH1730_REG_DATA1_LOW); 
+ 179              		.loc 1 123 0
+ 180 001a 1620     		movs	r0, #22
+ 181 001c FFF7FEFF 		bl	BH1730_ReadReg
+ 182              	.LVL13:
+ 183 0020 0600     		movs	r6, r0
+ 184              	.LVL14:
+ 124:Src/bh1730.c  ****   data1_mb = BH1730_ReadReg(BH1730_REG_DATA1_HIGH); 
+ 185              		.loc 1 124 0
+ 186 0022 1720     		movs	r0, #23
+ 187 0024 FFF7FEFF 		bl	BH1730_ReadReg
+ 188              	.LVL15:
+ 125:Src/bh1730.c  **** 
+ 126:Src/bh1730.c  ****   // OLED_ShowNum(0, 0, data0_lb, 8, 12, 1);
+ 127:Src/bh1730.c  ****   // OLED_Refresh();
+ 128:Src/bh1730.c  ****   // HAL_Delay(1000);
+ 129:Src/bh1730.c  ****   // OLED_Clear();
+ 130:Src/bh1730.c  ****   // Calculate lux based on formula in datasheet.
+ 131:Src/bh1730.c  ****   uint16_t data0, data1;
+ 132:Src/bh1730.c  ****   data0 = (data0_mb << 8 ) + data0_lb;
+ 189              		.loc 1 132 0
+ 190 0028 2402     		lsls	r4, r4, #8
+ 191              	.LVL16:
+ 192 002a 6519     		adds	r5, r4, r5
+ 193              	.LVL17:
+ 194 002c ACB2     		uxth	r4, r5
+ 195              	.LVL18:
+ 133:Src/bh1730.c  ****   data1 = (data1_mb << 8 ) + data1_lb;
+ 196              		.loc 1 133 0
+ 197 002e 0502     		lsls	r5, r0, #8
+ 198 0030 AE19     		adds	r6, r5, r6
+ 199              	.LVL19:
+ 200 0032 B5B2     		uxth	r5, r6
+ 201              	.LVL20:
+ 134:Src/bh1730.c  ****   // OLED_ShowNum(0, 0, data0, 9, 12, 1);
+ 135:Src/bh1730.c  ****   // OLED_ShowNum(0, 22, data1, 9, 12, 1);
+ 136:Src/bh1730.c  ****   // OLED_Refresh();
+ 137:Src/bh1730.c  ****   // HAL_Delay(1000);
+ 138:Src/bh1730.c  ****   // OLED_Clear();
+ 139:Src/bh1730.c  **** 
+ 140:Src/bh1730.c  ****   if(data0 == 0)return 0;
+ 202              		.loc 1 140 0
+ 203 0034 002C     		cmp	r4, #0
+ 204 0036 00D1     		bne	.LCB151
+ 205 0038 AAE0     		b	.L16	@long jump
+ 206              	.LCB151:
+ 207              	.LVL21:
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 7
+
+
+ 141:Src/bh1730.c  ****   
+ 142:Src/bh1730.c  ****   uint32_t lx = 0;
+ 143:Src/bh1730.c  ****   uint32_t div = data1/data0;
+ 208              		.loc 1 143 0
+ 209 003a 2100     		movs	r1, r4
+ 210 003c 2800     		movs	r0, r5
+ 211              	.LVL22:
+ 212 003e FFF7FEFF 		bl	__aeabi_uidiv
+ 213              	.LVL23:
+ 214 0042 80B2     		uxth	r0, r0
+ 215              	.LVL24:
+ 144:Src/bh1730.c  **** 
+ 145:Src/bh1730.c  ****   // set accuracy
+ 146:Src/bh1730.c  ****   uint8_t gain = GAIN_X1;
+ 147:Src/bh1730.c  **** 
+ 148:Src/bh1730.c  ****   if(div < 0.26) {
+ 216              		.loc 1 148 0
+ 217 0044 FFF7FEFF 		bl	__aeabi_ui2d
+ 218              	.LVL25:
+ 219 0048 0600     		movs	r6, r0
+ 220 004a 0F00     		movs	r7, r1
+ 221 004c 524A     		ldr	r2, .L26
+ 222 004e 534B     		ldr	r3, .L26+4
+ 223 0050 FFF7FEFF 		bl	__aeabi_dcmplt
+ 224              	.LVL26:
+ 225 0054 0028     		cmp	r0, #0
+ 226 0056 20D0     		beq	.L22
+ 149:Src/bh1730.c  ****       lx = ((1.29 * data0) - (2.733 * data1)) / gain * 102.6 / BH1730_ITIME_MS;
+ 227              		.loc 1 149 0
+ 228 0058 2000     		movs	r0, r4
+ 229 005a FFF7FEFF 		bl	__aeabi_i2d
+ 230              	.LVL27:
+ 231 005e 4E4A     		ldr	r2, .L26
+ 232 0060 4F4B     		ldr	r3, .L26+8
+ 233 0062 FFF7FEFF 		bl	__aeabi_dmul
+ 234              	.LVL28:
+ 235 0066 0600     		movs	r6, r0
+ 236 0068 0F00     		movs	r7, r1
+ 237 006a 2800     		movs	r0, r5
+ 238 006c FFF7FEFF 		bl	__aeabi_i2d
+ 239              	.LVL29:
+ 240 0070 4C4A     		ldr	r2, .L26+12
+ 241 0072 4D4B     		ldr	r3, .L26+16
+ 242 0074 FFF7FEFF 		bl	__aeabi_dmul
+ 243              	.LVL30:
+ 244 0078 0200     		movs	r2, r0
+ 245 007a 0B00     		movs	r3, r1
+ 246 007c 3000     		movs	r0, r6
+ 247 007e 3900     		movs	r1, r7
+ 248 0080 FFF7FEFF 		bl	__aeabi_dsub
+ 249              	.LVL31:
+ 250 0084 494A     		ldr	r2, .L26+20
+ 251 0086 4A4B     		ldr	r3, .L26+24
+ 252 0088 FFF7FEFF 		bl	__aeabi_dmul
+ 253              	.LVL32:
+ 254 008c 494A     		ldr	r2, .L26+28
+ 255 008e 4A4B     		ldr	r3, .L26+32
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 8
+
+
+ 256 0090 FFF7FEFF 		bl	__aeabi_ddiv
+ 257              	.LVL33:
+ 258 0094 FFF7FEFF 		bl	__aeabi_d2uiz
+ 259              	.LVL34:
+ 260 0098 7DE0     		b	.L8
+ 261              	.LVL35:
+ 262              	.L22:
+ 150:Src/bh1730.c  ****   }else if(div < 0.55) {
+ 263              		.loc 1 150 0
+ 264 009a 484A     		ldr	r2, .L26+36
+ 265 009c 484B     		ldr	r3, .L26+40
+ 266 009e 3000     		movs	r0, r6
+ 267 00a0 3900     		movs	r1, r7
+ 268 00a2 FFF7FEFF 		bl	__aeabi_dcmplt
+ 269              	.LVL36:
+ 270 00a6 0028     		cmp	r0, #0
+ 271 00a8 20D0     		beq	.L23
+ 151:Src/bh1730.c  ****       lx = ((0.795 * data0) - (0.859 * data1)) / gain * 102.6 / BH1730_ITIME_MS;
+ 272              		.loc 1 151 0
+ 273 00aa 2000     		movs	r0, r4
+ 274 00ac FFF7FEFF 		bl	__aeabi_i2d
+ 275              	.LVL37:
+ 276 00b0 444A     		ldr	r2, .L26+44
+ 277 00b2 454B     		ldr	r3, .L26+48
+ 278 00b4 FFF7FEFF 		bl	__aeabi_dmul
+ 279              	.LVL38:
+ 280 00b8 0600     		movs	r6, r0
+ 281 00ba 0F00     		movs	r7, r1
+ 282 00bc 2800     		movs	r0, r5
+ 283 00be FFF7FEFF 		bl	__aeabi_i2d
+ 284              	.LVL39:
+ 285 00c2 424A     		ldr	r2, .L26+52
+ 286 00c4 424B     		ldr	r3, .L26+56
+ 287 00c6 FFF7FEFF 		bl	__aeabi_dmul
+ 288              	.LVL40:
+ 289 00ca 0200     		movs	r2, r0
+ 290 00cc 0B00     		movs	r3, r1
+ 291 00ce 3000     		movs	r0, r6
+ 292 00d0 3900     		movs	r1, r7
+ 293 00d2 FFF7FEFF 		bl	__aeabi_dsub
+ 294              	.LVL41:
+ 295 00d6 354A     		ldr	r2, .L26+20
+ 296 00d8 354B     		ldr	r3, .L26+24
+ 297 00da FFF7FEFF 		bl	__aeabi_dmul
+ 298              	.LVL42:
+ 299 00de 354A     		ldr	r2, .L26+28
+ 300 00e0 354B     		ldr	r3, .L26+32
+ 301 00e2 FFF7FEFF 		bl	__aeabi_ddiv
+ 302              	.LVL43:
+ 303 00e6 FFF7FEFF 		bl	__aeabi_d2uiz
+ 304              	.LVL44:
+ 305 00ea 54E0     		b	.L8
+ 306              	.LVL45:
+ 307              	.L23:
+ 152:Src/bh1730.c  ****   }else if(div < 1.09) {
+ 308              		.loc 1 152 0
+ 309 00ec 354A     		ldr	r2, .L26+44
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 9
+
+
+ 310 00ee 394B     		ldr	r3, .L26+60
+ 311 00f0 3000     		movs	r0, r6
+ 312 00f2 3900     		movs	r1, r7
+ 313 00f4 FFF7FEFF 		bl	__aeabi_dcmplt
+ 314              	.LVL46:
+ 315 00f8 0028     		cmp	r0, #0
+ 316 00fa 20D0     		beq	.L24
+ 153:Src/bh1730.c  ****       lx = ((0.51 * data0) - (0.345 * data1)) / gain * 102.6 / BH1730_ITIME_MS;
+ 317              		.loc 1 153 0
+ 318 00fc 2000     		movs	r0, r4
+ 319 00fe FFF7FEFF 		bl	__aeabi_i2d
+ 320              	.LVL47:
+ 321 0102 354A     		ldr	r2, .L26+64
+ 322 0104 354B     		ldr	r3, .L26+68
+ 323 0106 FFF7FEFF 		bl	__aeabi_dmul
+ 324              	.LVL48:
+ 325 010a 0600     		movs	r6, r0
+ 326 010c 0F00     		movs	r7, r1
+ 327 010e 2800     		movs	r0, r5
+ 328 0110 FFF7FEFF 		bl	__aeabi_i2d
+ 329              	.LVL49:
+ 330 0114 324A     		ldr	r2, .L26+72
+ 331 0116 334B     		ldr	r3, .L26+76
+ 332 0118 FFF7FEFF 		bl	__aeabi_dmul
+ 333              	.LVL50:
+ 334 011c 0200     		movs	r2, r0
+ 335 011e 0B00     		movs	r3, r1
+ 336 0120 3000     		movs	r0, r6
+ 337 0122 3900     		movs	r1, r7
+ 338 0124 FFF7FEFF 		bl	__aeabi_dsub
+ 339              	.LVL51:
+ 340 0128 204A     		ldr	r2, .L26+20
+ 341 012a 214B     		ldr	r3, .L26+24
+ 342 012c FFF7FEFF 		bl	__aeabi_dmul
+ 343              	.LVL52:
+ 344 0130 204A     		ldr	r2, .L26+28
+ 345 0132 214B     		ldr	r3, .L26+32
+ 346 0134 FFF7FEFF 		bl	__aeabi_ddiv
+ 347              	.LVL53:
+ 348 0138 FFF7FEFF 		bl	__aeabi_d2uiz
+ 349              	.LVL54:
+ 350 013c 2BE0     		b	.L8
+ 351              	.LVL55:
+ 352              	.L24:
+ 154:Src/bh1730.c  ****   }else if(div < 2.13) {
+ 353              		.loc 1 154 0
+ 354 013e 2A4A     		ldr	r2, .L26+80
+ 355 0140 2A4B     		ldr	r3, .L26+84
+ 356 0142 3000     		movs	r0, r6
+ 357 0144 3900     		movs	r1, r7
+ 358 0146 FFF7FEFF 		bl	__aeabi_dcmplt
+ 359              	.LVL56:
+ 360 014a 0028     		cmp	r0, #0
+ 361 014c 22D0     		beq	.L25
+ 155:Src/bh1730.c  ****       lx = ((0.276 * data0) - (0.13 * data1)) / gain * 102.6 / BH1730_ITIME_MS;
+ 362              		.loc 1 155 0
+ 363 014e 2000     		movs	r0, r4
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 10
+
+
+ 364 0150 FFF7FEFF 		bl	__aeabi_i2d
+ 365              	.LVL57:
+ 366 0154 264A     		ldr	r2, .L26+88
+ 367 0156 274B     		ldr	r3, .L26+92
+ 368 0158 FFF7FEFF 		bl	__aeabi_dmul
+ 369              	.LVL58:
+ 370 015c 0600     		movs	r6, r0
+ 371 015e 0F00     		movs	r7, r1
+ 372 0160 2800     		movs	r0, r5
+ 373 0162 FFF7FEFF 		bl	__aeabi_i2d
+ 374              	.LVL59:
+ 375 0166 0C4A     		ldr	r2, .L26
+ 376 0168 234B     		ldr	r3, .L26+96
+ 377 016a FFF7FEFF 		bl	__aeabi_dmul
+ 378              	.LVL60:
+ 379 016e 0200     		movs	r2, r0
+ 380 0170 0B00     		movs	r3, r1
+ 381 0172 3000     		movs	r0, r6
+ 382 0174 3900     		movs	r1, r7
+ 383 0176 FFF7FEFF 		bl	__aeabi_dsub
+ 384              	.LVL61:
+ 385 017a 0C4A     		ldr	r2, .L26+20
+ 386 017c 0C4B     		ldr	r3, .L26+24
+ 387 017e FFF7FEFF 		bl	__aeabi_dmul
+ 388              	.LVL62:
+ 389 0182 0C4A     		ldr	r2, .L26+28
+ 390 0184 0C4B     		ldr	r3, .L26+32
+ 391 0186 FFF7FEFF 		bl	__aeabi_ddiv
+ 392              	.LVL63:
+ 393 018a FFF7FEFF 		bl	__aeabi_d2uiz
+ 394              	.LVL64:
+ 395 018e 02E0     		b	.L8
+ 396              	.LVL65:
+ 397              	.L16:
+ 140:Src/bh1730.c  ****   
+ 398              		.loc 1 140 0
+ 399 0190 0020     		movs	r0, #0
+ 400              	.LVL66:
+ 401 0192 00E0     		b	.L8
+ 402              	.LVL67:
+ 403              	.L25:
+ 142:Src/bh1730.c  ****   uint32_t div = data1/data0;
+ 404              		.loc 1 142 0
+ 405 0194 0020     		movs	r0, #0
+ 406              	.LVL68:
+ 407              	.L8:
+ 156:Src/bh1730.c  ****   }
+ 157:Src/bh1730.c  **** 
+ 158:Src/bh1730.c  ****   return lx;
+ 159:Src/bh1730.c  **** }...
+ 408              		.loc 1 159 0
+ 409              		@ sp needed
+ 410              	.LVL69:
+ 411              	.LVL70:
+ 412 0196 F8BD     		pop	{r3, r4, r5, r6, r7, pc}
+ 413              	.L27:
+ 414              		.align	2
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 11
+
+
+ 415              	.L26:
+ 416 0198 A4703D0A 		.word	171798692
+ 417 019c D7A3D03F 		.word	1070638039
+ 418 01a0 D7A3F43F 		.word	1072997335
+ 419 01a4 77BE9F1A 		.word	446676599
+ 420 01a8 2FDD0540 		.word	1074126127
+ 421 01ac 66666666 		.word	1717986918
+ 422 01b0 66A65940 		.word	1079617126
+ 423 01b4 4DF38E53 		.word	1401877325
+ 424 01b8 74A45940 		.word	1079616628
+ 425 01bc 9A999999 		.word	-1717986918
+ 426 01c0 9999E13F 		.word	1071749529
+ 427 01c4 713D0AD7 		.word	-687194767
+ 428 01c8 A370E93F 		.word	1072263331
+ 429 01cc B0726891 		.word	-1855425872
+ 430 01d0 ED7CEB3F 		.word	1072397549
+ 431 01d4 A370F13F 		.word	1072787619
+ 432 01d8 52B81E85 		.word	-2061584302
+ 433 01dc EB51E03F 		.word	1071665643
+ 434 01e0 14AE47E1 		.word	-515396076
+ 435 01e4 7A14D63F 		.word	1070994554
+ 436 01e8 0AD7A370 		.word	1889785610
+ 437 01ec 3D0A0140 		.word	1073809981
+ 438 01f0 448B6CE7 		.word	-412316860
+ 439 01f4 FBA9D13F 		.word	1070705147
+ 440 01f8 D7A3C03F 		.word	1069589463
+ 441              		.cfi_endproc
+ 442              	.LFE42:
+ 444              		.text
+ 445              	.Letext0:
+ 446              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\mach
+ 447              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\sys\
+ 448              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x8.h"
+ 449              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 450              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 451              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h"
+ 452              		.file 8 "Inc/i2c.h"
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s 			page 12
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 bh1730.c
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:20     .text.BH1730_WriteReg:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:24     .text.BH1730_WriteReg:00000000 BH1730_WriteReg
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:65     .text.BH1730_WriteReg:00000024 $d
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:70     .text.BH1730_ReadReg:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:74     .text.BH1730_ReadReg:00000000 BH1730_ReadReg
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:129    .text.BH1730_ReadReg:0000003c $d
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:142    .text.BH1730_GetLux:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:147    .text.BH1730_GetLux:00000000 BH1730_GetLux
+C:\Users\bnusw\AppData\Local\Temp\cchU9HQa.s:416    .text.BH1730_GetLux:00000198 $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_Master_Transmit
+hi2c2
+HAL_I2C_Master_Receive
+__aeabi_uidiv
+__aeabi_ui2d
+__aeabi_dcmplt
+__aeabi_i2d
+__aeabi_dmul
+__aeabi_dsub
+__aeabi_ddiv
+__aeabi_d2uiz

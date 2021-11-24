@@ -1,0 +1,781 @@
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 1
+
+
+   1              		.syntax unified
+   2              		.cpu cortex-m0
+   3              		.fpu softvfp
+   4              		.eabi_attribute 20, 1
+   5              		.eabi_attribute 21, 1
+   6              		.eabi_attribute 23, 3
+   7              		.eabi_attribute 24, 1
+   8              		.eabi_attribute 25, 1
+   9              		.eabi_attribute 26, 1
+  10              		.eabi_attribute 30, 1
+  11              		.eabi_attribute 34, 0
+  12              		.eabi_attribute 18, 4
+  13              		.thumb
+  14              		.syntax unified
+  15              		.file	"max44009.c"
+  16              		.text
+  17              	.Ltext0:
+  18              		.cfi_sections	.debug_frame
+  19              		.section	.text.MAX44009_WriteReg,"ax",%progbits
+  20              		.align	2
+  21              		.code	16
+  22              		.thumb_func
+  24              	MAX44009_WriteReg:
+  25              	.LFB40:
+  26              		.file 1 "Src/max44009.c"
+   1:Src/max44009.c **** #include "max44009.h"
+   2:Src/max44009.c **** 
+   3:Src/max44009.c **** 
+   4:Src/max44009.c **** // Write new value to the MAX44009 register
+   5:Src/max44009.c **** // input:
+   6:Src/max44009.c **** //   addr - register address
+   7:Src/max44009.c **** //   value - new register value
+   8:Src/max44009.c **** static void MAX44009_WriteReg(uint8_t addr, uint8_t value) {
+  27              		.loc 1 8 0
+  28              		.cfi_startproc
+  29              		@ args = 0, pretend = 0, frame = 8
+  30              		@ frame_needed = 0, uses_anonymous_args = 0
+  31              	.LVL0:
+  32 0000 00B5     		push	{lr}
+  33              	.LCFI0:
+  34              		.cfi_def_cfa_offset 4
+  35              		.cfi_offset 14, -4
+  36 0002 85B0     		sub	sp, sp, #20
+  37              	.LCFI1:
+  38              		.cfi_def_cfa_offset 24
+   9:Src/max44009.c **** 	uint8_t buf[2];
+  10:Src/max44009.c **** 
+  11:Src/max44009.c **** 	buf[0] = addr;
+  39              		.loc 1 11 0
+  40 0004 03AA     		add	r2, sp, #12
+  41 0006 1070     		strb	r0, [r2]
+  12:Src/max44009.c **** 	buf[1] = value;
+  42              		.loc 1 12 0
+  43 0008 5170     		strb	r1, [r2, #1]
+  13:Src/max44009.c ****     HAL_I2C_Master_Transmit(&hi2c2, MAX44009_ADDR, buf, 2, HAL_I2C_STATE_TIMEOUT); // HAL redo 0x02
+  44              		.loc 1 13 0
+  45 000a A023     		movs	r3, #160
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 2
+
+
+  46 000c 0093     		str	r3, [sp]
+  47 000e 9E3B     		subs	r3, r3, #158
+  48 0010 9421     		movs	r1, #148
+  49              	.LVL1:
+  50 0012 0248     		ldr	r0, .L2
+  51              	.LVL2:
+  52 0014 FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+  53              	.LVL3:
+  14:Src/max44009.c **** 	// I2C_Transmit(MAX44009_I2C_PORT, buf, 2, MAX44009_ADDR, I2C_GENSTOP_YES);
+  15:Src/max44009.c **** }
+  54              		.loc 1 15 0
+  55 0018 05B0     		add	sp, sp, #20
+  56              		@ sp needed
+  57 001a 00BD     		pop	{pc}
+  58              	.L3:
+  59              		.align	2
+  60              	.L2:
+  61 001c 00000000 		.word	hi2c2
+  62              		.cfi_endproc
+  63              	.LFE40:
+  65              		.section	.text.MAX44009_ReadReg,"ax",%progbits
+  66              		.align	2
+  67              		.code	16
+  68              		.thumb_func
+  70              	MAX44009_ReadReg:
+  71              	.LFB41:
+  16:Src/max44009.c **** 
+  17:Src/max44009.c **** // Read value of the MAX44009 register
+  18:Src/max44009.c **** // input:
+  19:Src/max44009.c **** //   addr - register address
+  20:Src/max44009.c **** // return:
+  21:Src/max44009.c **** //   register value
+  22:Src/max44009.c **** static uint8_t MAX44009_ReadReg(uint8_t addr) {
+  72              		.loc 1 22 0
+  73              		.cfi_startproc
+  74              		@ args = 0, pretend = 0, frame = 16
+  75              		@ frame_needed = 0, uses_anonymous_args = 0
+  76              	.LVL4:
+  77 0000 70B5     		push	{r4, r5, r6, lr}
+  78              	.LCFI2:
+  79              		.cfi_def_cfa_offset 16
+  80              		.cfi_offset 4, -16
+  81              		.cfi_offset 5, -12
+  82              		.cfi_offset 6, -8
+  83              		.cfi_offset 14, -4
+  84 0002 86B0     		sub	sp, sp, #24
+  85              	.LCFI3:
+  86              		.cfi_def_cfa_offset 40
+  87 0004 0F22     		movs	r2, #15
+  88 0006 6A44     		add	r2, r2, sp
+  89 0008 1070     		strb	r0, [r2]
+  23:Src/max44009.c **** 	uint8_t value = 0;    
+  90              		.loc 1 23 0
+  91 000a 1724     		movs	r4, #23
+  92 000c 6C44     		add	r4, r4, sp
+  93 000e 0023     		movs	r3, #0
+  94 0010 2370     		strb	r3, [r4]
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 3
+
+
+  24:Src/max44009.c ****     HAL_I2C_Master_Transmit(&hi2c2, MAX44009_ADDR, &addr, 1, HAL_I2C_STATE_TIMEOUT); // HAL redo 0x
+  95              		.loc 1 24 0
+  96 0012 094D     		ldr	r5, .L5
+  97 0014 A026     		movs	r6, #160
+  98 0016 0096     		str	r6, [sp]
+  99 0018 0133     		adds	r3, r3, #1
+ 100 001a 9421     		movs	r1, #148
+ 101 001c 2800     		movs	r0, r5
+ 102              	.LVL5:
+ 103 001e FFF7FEFF 		bl	HAL_I2C_Master_Transmit
+ 104              	.LVL6:
+  25:Src/max44009.c **** 	// I2C_Transmit(MAX44009_I2C_PORT, &addr, 1, MAX44009_ADDR, I2C_GENSTOP_NO);
+  26:Src/max44009.c **** 
+  27:Src/max44009.c ****     HAL_I2C_Master_Receive(&hi2c2, MAX44009_ADDR, &value, 1, HAL_I2C_STATE_TIMEOUT);
+ 105              		.loc 1 27 0
+ 106 0022 0096     		str	r6, [sp]
+ 107 0024 0123     		movs	r3, #1
+ 108 0026 2200     		movs	r2, r4
+ 109 0028 9421     		movs	r1, #148
+ 110 002a 2800     		movs	r0, r5
+ 111 002c FFF7FEFF 		bl	HAL_I2C_Master_Receive
+ 112              	.LVL7:
+  28:Src/max44009.c **** 	// I2C_Receive(MAX44009_I2C_PORT, &value, 1, MAX44009_ADDR);
+  29:Src/max44009.c **** 
+  30:Src/max44009.c **** 	return value;
+ 113              		.loc 1 30 0
+ 114 0030 2078     		ldrb	r0, [r4]
+  31:Src/max44009.c **** }
+ 115              		.loc 1 31 0
+ 116 0032 06B0     		add	sp, sp, #24
+ 117              		@ sp needed
+ 118 0034 70BD     		pop	{r4, r5, r6, pc}
+ 119              	.L6:
+ 120 0036 C046     		.align	2
+ 121              	.L5:
+ 122 0038 00000000 		.word	hi2c2
+ 123              		.cfi_endproc
+ 124              	.LFE41:
+ 126              		.section	.text.MAX44009_INTStatus,"ax",%progbits
+ 127              		.align	2
+ 128              		.global	MAX44009_INTStatus
+ 129              		.code	16
+ 130              		.thumb_func
+ 132              	MAX44009_INTStatus:
+ 133              	.LFB42:
+  32:Src/max44009.c **** 
+  33:Src/max44009.c **** // Read MAX44009 interrupt status
+  34:Src/max44009.c **** // return:
+  35:Src/max44009.c **** //   MAX44009_INT_RESET - no interrupt trigger event has occurred
+  36:Src/max44009.c **** //   MAX44009_INT_SET - interrupt has been triggered
+  37:Src/max44009.c **** // note: INTS bit will be cleared after calling this function
+  38:Src/max44009.c **** uint8_t MAX44009_INTStatus(void) {
+ 134              		.loc 1 38 0
+ 135              		.cfi_startproc
+ 136              		@ args = 0, pretend = 0, frame = 0
+ 137              		@ frame_needed = 0, uses_anonymous_args = 0
+ 138 0000 10B5     		push	{r4, lr}
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 4
+
+
+ 139              	.LCFI4:
+ 140              		.cfi_def_cfa_offset 8
+ 141              		.cfi_offset 4, -8
+ 142              		.cfi_offset 14, -4
+  39:Src/max44009.c **** 	return (MAX44009_ReadReg(MAX44009_REG_INTS) & MAX44009_INT_SET);
+ 143              		.loc 1 39 0
+ 144 0002 0020     		movs	r0, #0
+ 145 0004 FFF7FEFF 		bl	MAX44009_ReadReg
+ 146              	.LVL8:
+ 147 0008 0123     		movs	r3, #1
+ 148 000a 1840     		ands	r0, r3
+  40:Src/max44009.c **** }
+ 149              		.loc 1 40 0
+ 150              		@ sp needed
+ 151 000c 10BD     		pop	{r4, pc}
+ 152              		.cfi_endproc
+ 153              	.LFE42:
+ 155 000e C046     		.section	.text.MAX44009_INTEnable,"ax",%progbits
+ 156              		.align	2
+ 157              		.global	MAX44009_INTEnable
+ 158              		.code	16
+ 159              		.thumb_func
+ 161              	MAX44009_INTEnable:
+ 162              	.LFB43:
+  41:Src/max44009.c **** 
+  42:Src/max44009.c **** // Enable interrupt on INT pin
+  43:Src/max44009.c **** void MAX44009_INTEnable(void) {
+ 163              		.loc 1 43 0
+ 164              		.cfi_startproc
+ 165              		@ args = 0, pretend = 0, frame = 0
+ 166              		@ frame_needed = 0, uses_anonymous_args = 0
+ 167 0000 10B5     		push	{r4, lr}
+ 168              	.LCFI5:
+ 169              		.cfi_def_cfa_offset 8
+ 170              		.cfi_offset 4, -8
+ 171              		.cfi_offset 14, -4
+  44:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_INTE, MAX44009_INT_ENABLE);
+ 172              		.loc 1 44 0
+ 173 0002 0121     		movs	r1, #1
+ 174 0004 0120     		movs	r0, #1
+ 175 0006 FFF7FEFF 		bl	MAX44009_WriteReg
+ 176              	.LVL9:
+  45:Src/max44009.c **** }
+ 177              		.loc 1 45 0
+ 178              		@ sp needed
+ 179 000a 10BD     		pop	{r4, pc}
+ 180              		.cfi_endproc
+ 181              	.LFE43:
+ 183              		.section	.text.MAX44009_INTDisable,"ax",%progbits
+ 184              		.align	2
+ 185              		.global	MAX44009_INTDisable
+ 186              		.code	16
+ 187              		.thumb_func
+ 189              	MAX44009_INTDisable:
+ 190              	.LFB44:
+  46:Src/max44009.c **** 
+  47:Src/max44009.c **** // Disable interrupt on INT pin
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 5
+
+
+  48:Src/max44009.c **** // note: also clears INTS bit in the STATUS register
+  49:Src/max44009.c **** void MAX44009_INTDisable(void) {
+ 191              		.loc 1 49 0
+ 192              		.cfi_startproc
+ 193              		@ args = 0, pretend = 0, frame = 0
+ 194              		@ frame_needed = 0, uses_anonymous_args = 0
+ 195 0000 10B5     		push	{r4, lr}
+ 196              	.LCFI6:
+ 197              		.cfi_def_cfa_offset 8
+ 198              		.cfi_offset 4, -8
+ 199              		.cfi_offset 14, -4
+  50:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_INTE, MAX44009_INT_DISABLE);
+ 200              		.loc 1 50 0
+ 201 0002 0021     		movs	r1, #0
+ 202 0004 0120     		movs	r0, #1
+ 203 0006 FFF7FEFF 		bl	MAX44009_WriteReg
+ 204              	.LVL10:
+  51:Src/max44009.c **** }
+ 205              		.loc 1 51 0
+ 206              		@ sp needed
+ 207 000a 10BD     		pop	{r4, pc}
+ 208              		.cfi_endproc
+ 209              	.LFE44:
+ 211              		.section	.text.MAX44009_SetModeAutomatic,"ax",%progbits
+ 212              		.align	2
+ 213              		.global	MAX44009_SetModeAutomatic
+ 214              		.code	16
+ 215              		.thumb_func
+ 217              	MAX44009_SetModeAutomatic:
+ 218              	.LFB45:
+  52:Src/max44009.c **** 
+  53:Src/max44009.c **** // Configure IC for full automatic mode
+  54:Src/max44009.c **** // IC will perform measures every 800ms with automatic range selection
+  55:Src/max44009.c **** // note: this is default mode
+  56:Src/max44009.c **** void MAX44009_SetModeAutomatic(void) {
+ 219              		.loc 1 56 0
+ 220              		.cfi_startproc
+ 221              		@ args = 0, pretend = 0, frame = 0
+ 222              		@ frame_needed = 0, uses_anonymous_args = 0
+ 223 0000 10B5     		push	{r4, lr}
+ 224              	.LCFI7:
+ 225              		.cfi_def_cfa_offset 8
+ 226              		.cfi_offset 4, -8
+ 227              		.cfi_offset 14, -4
+  57:Src/max44009.c **** 	uint8_t reg;
+  58:Src/max44009.c **** 
+  59:Src/max44009.c **** 	reg = MAX44009_ReadReg(MAX44009_REG_CFG);
+ 228              		.loc 1 59 0
+ 229 0002 0220     		movs	r0, #2
+ 230 0004 FFF7FEFF 		bl	MAX44009_ReadReg
+ 231              	.LVL11:
+  60:Src/max44009.c **** 	reg &= ~(MAX44009_CFG_CONT | MAX44009_CFG_MANUAL);
+ 232              		.loc 1 60 0
+ 233 0008 3F21     		movs	r1, #63
+ 234 000a 0140     		ands	r1, r0
+ 235              	.LVL12:
+  61:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_CFG, reg);
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 6
+
+
+ 236              		.loc 1 61 0
+ 237 000c 0220     		movs	r0, #2
+ 238 000e FFF7FEFF 		bl	MAX44009_WriteReg
+ 239              	.LVL13:
+  62:Src/max44009.c **** }
+ 240              		.loc 1 62 0
+ 241              		@ sp needed
+ 242 0012 10BD     		pop	{r4, pc}
+ 243              		.cfi_endproc
+ 244              	.LFE45:
+ 246              		.section	.text.MAX44009_SetModeContinuous,"ax",%progbits
+ 247              		.align	2
+ 248              		.global	MAX44009_SetModeContinuous
+ 249              		.code	16
+ 250              		.thumb_func
+ 252              	MAX44009_SetModeContinuous:
+ 253              	.LFB46:
+  63:Src/max44009.c **** 
+  64:Src/max44009.c **** // Configure IC for continuous mode
+  65:Src/max44009.c **** // IC will perform measures in continuous mode, which means
+  66:Src/max44009.c **** // that as soon as one reading done, a new one begins
+  67:Src/max44009.c **** // Range in this mode automatic, thus the integration time
+  68:Src/max44009.c **** // will be chosen by internal IC circuitry
+  69:Src/max44009.c **** // Thus, if the IC chooses the integration time of 100ms,
+  70:Src/max44009.c **** // the measurements will be performed every 100ms
+  71:Src/max44009.c **** void MAX44009_SetModeContinuous(void) {
+ 254              		.loc 1 71 0
+ 255              		.cfi_startproc
+ 256              		@ args = 0, pretend = 0, frame = 0
+ 257              		@ frame_needed = 0, uses_anonymous_args = 0
+ 258 0000 10B5     		push	{r4, lr}
+ 259              	.LCFI8:
+ 260              		.cfi_def_cfa_offset 8
+ 261              		.cfi_offset 4, -8
+ 262              		.cfi_offset 14, -4
+  72:Src/max44009.c **** 	uint8_t reg;
+  73:Src/max44009.c **** 
+  74:Src/max44009.c **** 	reg = MAX44009_ReadReg(MAX44009_REG_CFG);
+ 263              		.loc 1 74 0
+ 264 0002 0220     		movs	r0, #2
+ 265 0004 FFF7FEFF 		bl	MAX44009_ReadReg
+ 266              	.LVL14:
+ 267 0008 4023     		movs	r3, #64
+ 268 000a 9843     		bics	r0, r3
+ 269              	.LVL15:
+ 270 000c C0B2     		uxtb	r0, r0
+  75:Src/max44009.c **** 	reg |= MAX44009_CFG_CONT;
+  76:Src/max44009.c **** 	reg &= ~MAX44009_CFG_MANUAL;
+ 271              		.loc 1 76 0
+ 272 000e 8021     		movs	r1, #128
+ 273 0010 4942     		rsbs	r1, r1, #0
+ 274 0012 0143     		orrs	r1, r0
+ 275 0014 C9B2     		uxtb	r1, r1
+ 276              	.LVL16:
+  77:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_CFG, reg);
+ 277              		.loc 1 77 0
+ 278 0016 0220     		movs	r0, #2
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 7
+
+
+ 279 0018 FFF7FEFF 		bl	MAX44009_WriteReg
+ 280              	.LVL17:
+  78:Src/max44009.c **** }
+ 281              		.loc 1 78 0
+ 282              		@ sp needed
+ 283 001c 10BD     		pop	{r4, pc}
+ 284              		.cfi_endproc
+ 285              	.LFE46:
+ 287 001e C046     		.section	.text.MAX44009_SetModeManual,"ax",%progbits
+ 288              		.align	2
+ 289              		.global	MAX44009_SetModeManual
+ 290              		.code	16
+ 291              		.thumb_func
+ 293              	MAX44009_SetModeManual:
+ 294              	.LFB47:
+  79:Src/max44009.c **** 
+  80:Src/max44009.c **** // Configure IC for manual mode
+  81:Src/max44009.c **** // IC will perform measures in continuous mode and will use
+  82:Src/max44009.c **** // programmed by user values of CDR and integration time
+  83:Src/max44009.c **** // input:
+  84:Src/max44009.c **** //   cdr - new state of CDR (current division ratio), one of MAX44009_CDR_xx values
+  85:Src/max44009.c **** //   tim - new value of integration time, one of MAX44009_IT_xx values
+  86:Src/max44009.c **** void MAX44009_SetModeManual(uint8_t cdr, uint8_t tim) {
+ 295              		.loc 1 86 0
+ 296              		.cfi_startproc
+ 297              		@ args = 0, pretend = 0, frame = 0
+ 298              		@ frame_needed = 0, uses_anonymous_args = 0
+ 299              	.LVL18:
+ 300 0000 70B5     		push	{r4, r5, r6, lr}
+ 301              	.LCFI9:
+ 302              		.cfi_def_cfa_offset 16
+ 303              		.cfi_offset 4, -16
+ 304              		.cfi_offset 5, -12
+ 305              		.cfi_offset 6, -8
+ 306              		.cfi_offset 14, -4
+ 307 0002 0500     		movs	r5, r0
+ 308 0004 0C00     		movs	r4, r1
+  87:Src/max44009.c **** 	uint8_t reg;
+  88:Src/max44009.c **** 
+  89:Src/max44009.c **** 	reg = MAX44009_ReadReg(MAX44009_REG_CFG);
+ 309              		.loc 1 89 0
+ 310 0006 0220     		movs	r0, #2
+ 311              	.LVL19:
+ 312 0008 FFF7FEFF 		bl	MAX44009_ReadReg
+ 313              	.LVL20:
+  90:Src/max44009.c **** 	// Clear CONT, CDR and TIM bits of CFG register
+  91:Src/max44009.c **** 	reg &= ~(MAX44009_CFG_CONT | MAX44009_CDR_DIV8 | MAX44009_IT_6d25ms);
+ 314              		.loc 1 91 0
+ 315 000c 7021     		movs	r1, #112
+ 316 000e 0840     		ands	r0, r1
+ 317              	.LVL21:
+  92:Src/max44009.c **** 	// Set MANUAL bit and configure new values of CDR and TIM[2:0] bits
+  93:Src/max44009.c **** 	reg |= MAX44009_CFG_MANUAL | (cdr & MAX44009_CDR_DIV8) | (tim & MAX44009_IT_6d25ms);
+ 318              		.loc 1 93 0
+ 319 0010 6839     		subs	r1, r1, #104
+ 320 0012 2940     		ands	r1, r5
+ 321 0014 4023     		movs	r3, #64
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 8
+
+
+ 322 0016 1943     		orrs	r1, r3
+ 323 0018 0723     		movs	r3, #7
+ 324 001a 1C40     		ands	r4, r3
+ 325 001c 2143     		orrs	r1, r4
+ 326 001e 0143     		orrs	r1, r0
+ 327 0020 49B2     		sxtb	r1, r1
+ 328 0022 C9B2     		uxtb	r1, r1
+ 329              	.LVL22:
+  94:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_CFG, reg);
+ 330              		.loc 1 94 0
+ 331 0024 0220     		movs	r0, #2
+ 332 0026 FFF7FEFF 		bl	MAX44009_WriteReg
+ 333              	.LVL23:
+  95:Src/max44009.c **** }
+ 334              		.loc 1 95 0
+ 335              		@ sp needed
+ 336 002a 70BD     		pop	{r4, r5, r6, pc}
+ 337              		.cfi_endproc
+ 338              	.LFE47:
+ 340              		.section	.text.MAX44009_SetThrU,"ax",%progbits
+ 341              		.align	2
+ 342              		.global	MAX44009_SetThrU
+ 343              		.code	16
+ 344              		.thumb_func
+ 346              	MAX44009_SetThrU:
+ 347              	.LFB48:
+  96:Src/max44009.c **** 
+  97:Src/max44009.c **** // Configure MAX44009 upper threshold
+  98:Src/max44009.c **** // input:
+  99:Src/max44009.c **** //   value - new value of the upper threshold
+ 100:Src/max44009.c **** // note: for the explanation of that value refer to the datasheet
+ 101:Src/max44009.c **** void MAX44009_SetThrU(uint8_t value) {
+ 348              		.loc 1 101 0
+ 349              		.cfi_startproc
+ 350              		@ args = 0, pretend = 0, frame = 0
+ 351              		@ frame_needed = 0, uses_anonymous_args = 0
+ 352              	.LVL24:
+ 353 0000 10B5     		push	{r4, lr}
+ 354              	.LCFI10:
+ 355              		.cfi_def_cfa_offset 8
+ 356              		.cfi_offset 4, -8
+ 357              		.cfi_offset 14, -4
+ 358 0002 0100     		movs	r1, r0
+ 102:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_THU, value);
+ 359              		.loc 1 102 0
+ 360 0004 0520     		movs	r0, #5
+ 361              	.LVL25:
+ 362 0006 FFF7FEFF 		bl	MAX44009_WriteReg
+ 363              	.LVL26:
+ 103:Src/max44009.c **** }
+ 364              		.loc 1 103 0
+ 365              		@ sp needed
+ 366 000a 10BD     		pop	{r4, pc}
+ 367              		.cfi_endproc
+ 368              	.LFE48:
+ 370              		.section	.text.MAX44009_SetThrL,"ax",%progbits
+ 371              		.align	2
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 9
+
+
+ 372              		.global	MAX44009_SetThrL
+ 373              		.code	16
+ 374              		.thumb_func
+ 376              	MAX44009_SetThrL:
+ 377              	.LFB49:
+ 104:Src/max44009.c **** 
+ 105:Src/max44009.c **** // Configure MAX44009 lower threshold
+ 106:Src/max44009.c **** // input:
+ 107:Src/max44009.c **** //   value - new value of the lower threshold
+ 108:Src/max44009.c **** // note: for the explanation of that value refer to the datasheet
+ 109:Src/max44009.c **** void MAX44009_SetThrL(uint8_t value) {
+ 378              		.loc 1 109 0
+ 379              		.cfi_startproc
+ 380              		@ args = 0, pretend = 0, frame = 0
+ 381              		@ frame_needed = 0, uses_anonymous_args = 0
+ 382              	.LVL27:
+ 383 0000 10B5     		push	{r4, lr}
+ 384              	.LCFI11:
+ 385              		.cfi_def_cfa_offset 8
+ 386              		.cfi_offset 4, -8
+ 387              		.cfi_offset 14, -4
+ 388 0002 0100     		movs	r1, r0
+ 110:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_THL, value);
+ 389              		.loc 1 110 0
+ 390 0004 0620     		movs	r0, #6
+ 391              	.LVL28:
+ 392 0006 FFF7FEFF 		bl	MAX44009_WriteReg
+ 393              	.LVL29:
+ 111:Src/max44009.c **** }
+ 394              		.loc 1 111 0
+ 395              		@ sp needed
+ 396 000a 10BD     		pop	{r4, pc}
+ 397              		.cfi_endproc
+ 398              	.LFE49:
+ 400              		.section	.text.MAX44009_SetThrT,"ax",%progbits
+ 401              		.align	2
+ 402              		.global	MAX44009_SetThrT
+ 403              		.code	16
+ 404              		.thumb_func
+ 406              	MAX44009_SetThrT:
+ 407              	.LFB50:
+ 112:Src/max44009.c **** 
+ 113:Src/max44009.c **** // Configure MAX44009 threshold timer
+ 114:Src/max44009.c **** // input:
+ 115:Src/max44009.c **** //   value - new value of the threshold timer
+ 116:Src/max44009.c **** // note: for the explanation of that value refer to the datasheet
+ 117:Src/max44009.c **** void MAX44009_SetThrT(uint8_t value) {
+ 408              		.loc 1 117 0
+ 409              		.cfi_startproc
+ 410              		@ args = 0, pretend = 0, frame = 0
+ 411              		@ frame_needed = 0, uses_anonymous_args = 0
+ 412              	.LVL30:
+ 413 0000 10B5     		push	{r4, lr}
+ 414              	.LCFI12:
+ 415              		.cfi_def_cfa_offset 8
+ 416              		.cfi_offset 4, -8
+ 417              		.cfi_offset 14, -4
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 10
+
+
+ 418 0002 0100     		movs	r1, r0
+ 118:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_THT, value);
+ 419              		.loc 1 118 0
+ 420 0004 0720     		movs	r0, #7
+ 421              	.LVL31:
+ 422 0006 FFF7FEFF 		bl	MAX44009_WriteReg
+ 423              	.LVL32:
+ 119:Src/max44009.c **** }
+ 424              		.loc 1 119 0
+ 425              		@ sp needed
+ 426 000a 10BD     		pop	{r4, pc}
+ 427              		.cfi_endproc
+ 428              	.LFE50:
+ 430              		.section	.text.MAX44009_Init,"ax",%progbits
+ 431              		.align	2
+ 432              		.global	MAX44009_Init
+ 433              		.code	16
+ 434              		.thumb_func
+ 436              	MAX44009_Init:
+ 437              	.LFB51:
+ 120:Src/max44009.c **** 
+ 121:Src/max44009.c **** // Configure MAX44009 to its default state
+ 122:Src/max44009.c **** void MAX44009_Init(void) {
+ 438              		.loc 1 122 0
+ 439              		.cfi_startproc
+ 440              		@ args = 0, pretend = 0, frame = 0
+ 441              		@ frame_needed = 0, uses_anonymous_args = 0
+ 442 0000 10B5     		push	{r4, lr}
+ 443              	.LCFI13:
+ 444              		.cfi_def_cfa_offset 8
+ 445              		.cfi_offset 4, -8
+ 446              		.cfi_offset 14, -4
+ 123:Src/max44009.c **** 	// Interrupt disabled
+ 124:Src/max44009.c **** 	MAX44009_INTDisable();
+ 447              		.loc 1 124 0
+ 448 0002 FFF7FEFF 		bl	MAX44009_INTDisable
+ 449              	.LVL33:
+ 125:Src/max44009.c **** 	// Default mode: measurements performed every 800ms
+ 126:Src/max44009.c **** 	// Auto range: CDR and integration time are automatically determined by
+ 127:Src/max44009.c **** 	//             the internal autoranging circuitry of the IC
+ 128:Src/max44009.c **** 	MAX44009_WriteReg(MAX44009_REG_CFG, 0x03);
+ 450              		.loc 1 128 0
+ 451 0006 0321     		movs	r1, #3
+ 452 0008 0220     		movs	r0, #2
+ 453 000a FFF7FEFF 		bl	MAX44009_WriteReg
+ 454              	.LVL34:
+ 129:Src/max44009.c **** 	// Upper threshold: maximum
+ 130:Src/max44009.c **** 	MAX44009_SetThrU(0xFF);
+ 455              		.loc 1 130 0
+ 456 000e FF20     		movs	r0, #255
+ 457 0010 FFF7FEFF 		bl	MAX44009_SetThrU
+ 458              	.LVL35:
+ 131:Src/max44009.c **** 	// Lower threshold: minimum
+ 132:Src/max44009.c **** 	MAX44009_SetThrL(0x00);
+ 459              		.loc 1 132 0
+ 460 0014 0020     		movs	r0, #0
+ 461 0016 FFF7FEFF 		bl	MAX44009_SetThrL
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 11
+
+
+ 462              	.LVL36:
+ 133:Src/max44009.c **** 	// Threshold timer: 25,5s
+ 134:Src/max44009.c **** 	MAX44009_SetThrT(0xFF);
+ 463              		.loc 1 134 0
+ 464 001a FF20     		movs	r0, #255
+ 465 001c FFF7FEFF 		bl	MAX44009_SetThrT
+ 466              	.LVL37:
+ 135:Src/max44009.c **** }
+ 467              		.loc 1 135 0
+ 468              		@ sp needed
+ 469 0020 10BD     		pop	{r4, pc}
+ 470              		.cfi_endproc
+ 471              	.LFE51:
+ 473 0022 C046     		.section	.text.MAX44009_GetLux,"ax",%progbits
+ 474              		.align	2
+ 475              		.global	MAX44009_GetLux
+ 476              		.code	16
+ 477              		.thumb_func
+ 479              	MAX44009_GetLux:
+ 480              	.LFB52:
+ 136:Src/max44009.c **** 
+ 137:Src/max44009.c **** // Get lux readings from the MAX44009
+ 138:Src/max44009.c **** // return: lux value, millilux
+ 139:Src/max44009.c **** //         the value of 47520 represents 47.520lux
+ 140:Src/max44009.c **** // note: will return MAX44009_OVERRANGE value in case of overrange condition
+ 141:Src/max44009.c **** // note: in the version with reduced accuracy, a 4-bit mantissa is used, this
+ 142:Src/max44009.c **** //       requires one I2C transaction instead of two
+ 143:Src/max44009.c **** //       also, the LUX value is calculated a little faster sacrificing a bit of accuracy
+ 144:Src/max44009.c **** uint32_t MAX44009_GetLux(void) {
+ 481              		.loc 1 144 0
+ 482              		.cfi_startproc
+ 483              		@ args = 0, pretend = 0, frame = 0
+ 484              		@ frame_needed = 0, uses_anonymous_args = 0
+ 485 0000 10B5     		push	{r4, lr}
+ 486              	.LCFI14:
+ 487              		.cfi_def_cfa_offset 8
+ 488              		.cfi_offset 4, -8
+ 489              		.cfi_offset 14, -4
+ 145:Src/max44009.c **** 	uint32_t result;
+ 146:Src/max44009.c **** 	uint8_t lhb; // Lux high byte
+ 147:Src/max44009.c **** 
+ 148:Src/max44009.c **** 	// Get RAW lux readings
+ 149:Src/max44009.c **** 	lhb = MAX44009_ReadReg(MAX44009_REG_LUXH);
+ 490              		.loc 1 149 0
+ 491 0002 0320     		movs	r0, #3
+ 492 0004 FFF7FEFF 		bl	MAX44009_ReadReg
+ 493              	.LVL38:
+ 494 0008 0400     		movs	r4, r0
+ 495              	.LVL39:
+ 150:Src/max44009.c **** #if (MAX44009_ACCURACY)
+ 151:Src/max44009.c **** 	uint8_t llb; // Lux low byte
+ 152:Src/max44009.c **** 	llb = MAX44009_ReadReg(MAX44009_REG_LUXL);
+ 496              		.loc 1 152 0
+ 497 000a 0420     		movs	r0, #4
+ 498 000c FFF7FEFF 		bl	MAX44009_ReadReg
+ 499              	.LVL40:
+ 153:Src/max44009.c **** #endif
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 12
+
+
+ 154:Src/max44009.c **** 
+ 155:Src/max44009.c **** 	// Calculate lux value using formula: 2^(exponent) * mantissa * 0.045
+ 156:Src/max44009.c **** 	result = 1 << ((lhb & 0xF0) >> 4);
+ 500              		.loc 1 156 0
+ 501 0010 2209     		lsrs	r2, r4, #4
+ 502 0012 D2B2     		uxtb	r2, r2
+ 503 0014 0123     		movs	r3, #1
+ 504 0016 9340     		lsls	r3, r3, r2
+ 505              	.LVL41:
+ 157:Src/max44009.c **** 	if (result == 32768) {
+ 506              		.loc 1 157 0
+ 507 0018 8022     		movs	r2, #128
+ 508 001a 1202     		lsls	r2, r2, #8
+ 509 001c 9342     		cmp	r3, r2
+ 510 001e 0BD0     		beq	.L19
+ 158:Src/max44009.c **** 		// Overrange condition
+ 159:Src/max44009.c **** 		result = MAX44009_OVERRANGE;
+ 160:Src/max44009.c **** 	} else {
+ 161:Src/max44009.c **** #if (MAX44009_ACCURACY)
+ 162:Src/max44009.c **** 		// Maximum accuracy, formula: 2^(exponent) * mantissa * 0.045
+ 163:Src/max44009.c **** 		result *= ((lhb & 0x0F) << 4) + (llb & 0x0F);
+ 511              		.loc 1 163 0
+ 512 0020 2401     		lsls	r4, r4, #4
+ 513              	.LVL42:
+ 514 0022 FF22     		movs	r2, #255
+ 515 0024 1440     		ands	r4, r2
+ 516 0026 F03A     		subs	r2, r2, #240
+ 517 0028 1040     		ands	r0, r2
+ 518              	.LVL43:
+ 519 002a 2418     		adds	r4, r4, r0
+ 520 002c 6343     		muls	r3, r4
+ 521              	.LVL44:
+ 164:Src/max44009.c **** 		result *= 45;
+ 522              		.loc 1 164 0
+ 523 002e 5800     		lsls	r0, r3, #1
+ 524 0030 C318     		adds	r3, r0, r3
+ 525              	.LVL45:
+ 526 0032 1801     		lsls	r0, r3, #4
+ 527 0034 C01A     		subs	r0, r0, r3
+ 528              	.LVL46:
+ 529 0036 00E0     		b	.L18
+ 530              	.LVL47:
+ 531              	.L19:
+ 159:Src/max44009.c **** 	} else {
+ 532              		.loc 1 159 0
+ 533 0038 0048     		ldr	r0, .L20
+ 534              	.LVL48:
+ 535              	.L18:
+ 165:Src/max44009.c **** #else
+ 166:Src/max44009.c **** 		// Reduced accuracy, formula: 2^(exponent) * mantissa * 0.72
+ 167:Src/max44009.c **** 		result *= lhb & 0x0F;
+ 168:Src/max44009.c **** 		result *= 720;
+ 169:Src/max44009.c **** #endif // MAX44009_ACCURACY
+ 170:Src/max44009.c **** 	}
+ 171:Src/max44009.c **** 
+ 172:Src/max44009.c **** 	return result;
+ 173:Src/max44009.c **** }
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 13
+
+
+ 536              		.loc 1 173 0
+ 537              		@ sp needed
+ 538 003a 10BD     		pop	{r4, pc}
+ 539              	.L21:
+ 540              		.align	2
+ 541              	.L20:
+ 542 003c 00CA9A3B 		.word	1000000000
+ 543              		.cfi_endproc
+ 544              	.LFE52:
+ 546              		.text
+ 547              	.Letext0:
+ 548              		.file 2 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\mach
+ 549              		.file 3 "c:\\program files (x86)\\gnu tools arm embedded\\5.4 2016q3\\arm-none-eabi\\include\\sys\
+ 550              		.file 4 "Drivers/CMSIS/Device/ST/STM32F0xx/Include/stm32f030x8.h"
+ 551              		.file 5 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_def.h"
+ 552              		.file 6 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_dma.h"
+ 553              		.file 7 "Drivers/STM32F0xx_HAL_Driver/Inc/stm32f0xx_hal_i2c.h"
+ 554              		.file 8 "Inc/i2c.h"
+ARM GAS  C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s 			page 14
+
+
+DEFINED SYMBOLS
+                            *ABS*:00000000 max44009.c
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:20     .text.MAX44009_WriteReg:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:24     .text.MAX44009_WriteReg:00000000 MAX44009_WriteReg
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:61     .text.MAX44009_WriteReg:0000001c $d
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:66     .text.MAX44009_ReadReg:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:70     .text.MAX44009_ReadReg:00000000 MAX44009_ReadReg
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:122    .text.MAX44009_ReadReg:00000038 $d
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:127    .text.MAX44009_INTStatus:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:132    .text.MAX44009_INTStatus:00000000 MAX44009_INTStatus
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:156    .text.MAX44009_INTEnable:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:161    .text.MAX44009_INTEnable:00000000 MAX44009_INTEnable
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:184    .text.MAX44009_INTDisable:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:189    .text.MAX44009_INTDisable:00000000 MAX44009_INTDisable
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:212    .text.MAX44009_SetModeAutomatic:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:217    .text.MAX44009_SetModeAutomatic:00000000 MAX44009_SetModeAutomatic
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:247    .text.MAX44009_SetModeContinuous:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:252    .text.MAX44009_SetModeContinuous:00000000 MAX44009_SetModeContinuous
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:288    .text.MAX44009_SetModeManual:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:293    .text.MAX44009_SetModeManual:00000000 MAX44009_SetModeManual
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:341    .text.MAX44009_SetThrU:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:346    .text.MAX44009_SetThrU:00000000 MAX44009_SetThrU
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:371    .text.MAX44009_SetThrL:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:376    .text.MAX44009_SetThrL:00000000 MAX44009_SetThrL
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:401    .text.MAX44009_SetThrT:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:406    .text.MAX44009_SetThrT:00000000 MAX44009_SetThrT
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:431    .text.MAX44009_Init:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:436    .text.MAX44009_Init:00000000 MAX44009_Init
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:474    .text.MAX44009_GetLux:00000000 $t
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:479    .text.MAX44009_GetLux:00000000 MAX44009_GetLux
+C:\Users\bnusw\AppData\Local\Temp\ccXdIZXV.s:542    .text.MAX44009_GetLux:0000003c $d
+                     .debug_frame:00000010 $d
+
+UNDEFINED SYMBOLS
+HAL_I2C_Master_Transmit
+hi2c2
+HAL_I2C_Master_Receive

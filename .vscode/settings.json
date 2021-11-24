@@ -1,0 +1,7 @@
+{
+    "files.associations": {
+        "syscall.h": "c",
+        "stdlib.h": "c",
+        "cstdint": "cpp"
+    }
+}
