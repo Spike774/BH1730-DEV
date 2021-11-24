@@ -50,17 +50,17 @@ static uint8_t BH1730_ReadReg(uint8_t addr) {
  *  Set gain of the internal ADC
  * 
  */
-// void setGain(BH1730_GAIN gain){
-//   if(gain == GAIN_X1){
-//     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X1_MODE); 
-//   }else if(gain == GAIN_X2){
-//     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X2_MODE); 
-//   }else if(gain == GAIN_X64){
-//     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X64_MODE); 
-//   }
-//   else{
-//     BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X128_MODE); 
-//   }
+void setGain(uint8_t gain){
+  if(gain == GAIN_X1){
+    BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X1_MODE); 
+  }else if(gain == GAIN_X2){
+    BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X2_MODE); 
+  }else if(gain == GAIN_X64){
+    BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X64_MODE); 
+  }
+  else{
+    BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X128_MODE); 
+  }
 //   // else if(gain == GAIN_X128){
 //   //   BH1730_WriteReg(BH1730_REG_GAIN, BH1730_GAIN_X128_MODE); 
 //   // }
@@ -71,7 +71,7 @@ static uint8_t BH1730_ReadReg(uint8_t addr) {
 //   //   return;
 //   // }
 //   // BH1730_GAIN gain = gain;
-// }
+}
 
 /**
  * Read lux level from sensor.
@@ -79,8 +79,12 @@ static uint8_t BH1730_ReadReg(uint8_t addr) {
  * 
  */
 uint32_t BH1730_GetLux() {
+    
+  // set accuracy
+  uint8_t gain = GAIN_X1;
+
   // set Gain
-  // setGain(GAIN_X1);
+  setGain(gain);
 
   // Start one time measurement
   BH1730_WriteReg(BH1730_REG_CONTROL, BH1730_REG_CONTROL_POWER | BH1730_REG_CONTROL_ADC_EN | BH1730_REG_CONTROL_ONE_TIME);
@@ -142,8 +146,6 @@ uint32_t BH1730_GetLux() {
   uint32_t lx = 0;
   uint32_t div = data1/data0;
 
-  // set accuracy
-  uint8_t gain = GAIN_X1;
 
   if(div < 0.26) {
       lx = ((1.29 * data0) - (2.733 * data1)) / gain * 102.6 / BH1730_ITIME_MS;
