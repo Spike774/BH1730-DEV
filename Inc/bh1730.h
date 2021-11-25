@@ -83,7 +83,8 @@
 
 // BH1730();
 // uint8_t begin(void);                            //bool
-// void setGain(BH1730_GAIN gain);
+void BH1730_init(void);
+void setGain(uint8_t gain);
 uint32_t BH1730_GetLux(void);
 
 

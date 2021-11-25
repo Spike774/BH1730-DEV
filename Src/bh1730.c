@@ -46,6 +46,10 @@ static uint8_t BH1730_ReadReg(uint8_t addr) {
 }
 
 
+void BH1730_init(void){
+  BH1730_WriteReg(BH1730_CMD_SPECIAL | BH1730_CMD_SPECIAL_SOFT_RESET, (1<<7)); 
+}
+
 /**
  *  Set gain of the internal ADC
  * 
@@ -80,11 +84,11 @@ void setGain(uint8_t gain){
  */
 uint32_t BH1730_GetLux() {
     
-  // set accuracy
+  // set accuracy, default GAIN_X1
   uint8_t gain = GAIN_X1;
 
   // set Gain
-  setGain(gain);
+  // setGain(gain);
 
   // Start one time measurement
   BH1730_WriteReg(BH1730_REG_CONTROL, BH1730_REG_CONTROL_POWER | BH1730_REG_CONTROL_ADC_EN | BH1730_REG_CONTROL_ONE_TIME);
